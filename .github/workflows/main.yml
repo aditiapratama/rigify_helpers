@@ -17,7 +17,16 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v3
     - name: zip
-      run: mkdir rigify_helpers && rsync -av --exclude='.git/' --exclude='.screenshots/' --exclude='.github/' --exclude='rigify_helpers/' . rigify_helpers/ && zip -r ${{ github.event.repository.name }}-${{ env.RELEASE_VERSION }}.zip rigify_helpers/
+      run: mkdir rigify_helpers && rsync -av \
+        --exclude='.git/' \
+        --exclude='screenshots/' \
+        --exclude='.gitignore/' \
+        --exclude='.gitattributes/' \
+        --exclude='README.md/' \
+        --exclude='.github/' \
+        --exclude='rigify_helpers/' \
+        . rigify_helpers/ && \
+        zip -r ${{ github.event.repository.name }}-${{ env.RELEASE_VERSION }}.zip rigify_helpers/
     - name: Release
       uses: softprops/action-gh-release@v1
       with:
